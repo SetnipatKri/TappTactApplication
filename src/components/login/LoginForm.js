@@ -28,7 +28,7 @@ export default class LoginForm extends Component {
       Alert.alert('Username contain invalid letters')
     }
     //Check Password
-    if(this.state.password.length<6)
+    else if(this.state.password.length<6)
     {
       Alert.alert('Password is too short');
     }
@@ -61,7 +61,6 @@ export default class LoginForm extends Component {
       }
       else
       {
-        Alert.alert('Got it');
         StartMainTab();
       }
     })();
