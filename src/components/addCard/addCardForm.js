@@ -43,14 +43,18 @@ export default class addCardForm extends Component {
     state={
       avatarSource: null,
       imagePath:'',
-      imageHeight:150,
-      imageWidth:150,
-      username:'',
-      password:'',
-      email:'',
-      fname:'',
-      lname:'',
-      phone:''
+      imageHeight:400,
+      imageWidth:170,
+      FName:'',
+      LName:'',
+      Email:'',
+      Phone:'',
+      SocialMedia:'',
+      Company:'',
+      Address:'',
+      AccountID:'',
+      Expand:'',
+      Purpose:''
     }
     
     //Select Photo
@@ -89,102 +93,110 @@ export default class addCardForm extends Component {
       this.props.navigator.pop();
     }   
 
-    // registerHandle= () => {
-    //   //Check Validate All Field
-    //   if(this.state.username.length<6)
-    //   {
-    //     Alert.alert('Username is too short');
-    //   }
-    //   else if((this.state.username.length>18))
-    //   {
-    //     Alert.alert('Username is too long')
-    //   }
-    //   else if(!(/^[a-zA-Z0-9]+$/.test(this.state.username)))
-    //   {
-    //     Alert.alert('Username contain invalid letters')
-    //   }
-    //   else if(this.state.password.length<6)
-    //   {
-    //     Alert.alert('Password is too short');
-    //   }
-    //   else if((this.state.password.length>18))
-    //   {
-    //     Alert.alert('Password is too long');
-    //   }
-    //   else if(!(/^[a-zA-Z0-9]+$/.test(this.state.password)))
-    //   {
-    //     Alert.alert('Password contain invalid letters');
-    //   }
-    //   else if(!(Validator.validate(this.state.email)))
-    //   {
-    //     Alert.alert('Invalid Email');
-    //   }
-    //   else if(!(/^[a-zA-Z]+$/.test(this.state.fname)))
-    //   {
-    //     Alert.alert('Firstname contain invalid letters');
-    //   }
-    //   else if(!(/^[a-zA-Z]+$/.test(this.state.lname)))
-    //   {
-    //     Alert.alert('Lastname contain invalid letters');
-    //   }
-    //   else if(this.state.avatarSource==null){
-    //     Alert.alert('Please select image');
-    //   }
-    //   else
-    //   {
-    //     //Wait for image upload Finish
-    //     var ImageName = randomString({length: 30});
-    //     var TempImageName = ImageName + this.state.username;
-    //     uploadImage(this.state.imagePath,TempImageName).
-    //     then(temp => {
-    //         this.state.imagePath = temp;
-    //                 //Send Info to Function
-    //     })
-    //     .catch(err => console.log("FAIL TEST"));
-    //     (async () => {
-    //         const rawResponse = await fetch('https://us-central1-tapptact-219009.cloudfunctions.net/Register', {
-    //           method: 'POST',
-    //           headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json'
-    //           },
-    //           body: JSON.stringify({
-    //             accountLoginEmail: this.state.email,
-    //             accountUsername: this.state.username,
-    //             accountPassword: this.state.password,
-    //             accountFName: this.state.fname,
-    //             accountLName: this.state.lname,
-    //             accountEmail: [{
-    //                 email : this.state.email,
-    //                 isEmailVerified : true,
-    //                 emailType : "General"
-    //             }],
-    //             accountImage:  this.state.imagePath,
-    //             accountPhone: [{
-    //                 phoneNum : this.state.phone,
-    //                 isNumberVerified : true,
-    //                 phoneNumType : "General"
-    //             }],
-    //             accountSocialMedia: [{
-    //                 accountName : "",
-    //                 URL : "",
-    //                 socialMediaType : ""
-    //             }]
-    //           })
-    //         });
-    //         const content = await rawResponse.json();
-    //         if(content.hasOwnProperty('errorType'))
-    //         {
-    //           console.log(content.errorName);
-    //         }
-    //         else
-    //         {
-    //           console.log(content);
-    //           this.props.navigator.pop();
-    //         }
-    //       })();
-    //   }
-    // }
+    addCardHandle= () => {
+      //Check Validate All Field
+      if(false)
+      {
+        // Alert.alert('Username is too short');
+      }
+      // else if((this.state.username.length>18))
+      // {
+      //   Alert.alert('Username is too long')
+      // }
+      // else if(!(/^[a-zA-Z0-9]+$/.test(this.state.username)))
+      // {
+      //   Alert.alert('Username contain invalid letters')
+      // }
+      // else if(this.state.password.length<6)
+      // {
+      //   Alert.alert('Password is too short');
+      // }
+      // else if((this.state.password.length>18))
+      // {
+      //   Alert.alert('Password is too long');
+      // }
+      // else if(!(/^[a-zA-Z0-9]+$/.test(this.state.password)))
+      // {
+      //   Alert.alert('Password contain invalid letters');
+      // }
+      // else if(!(Validator.validate(this.state.email)))
+      // {
+      //   Alert.alert('Invalid Email');
+      // }
+      // else if(!(/^[a-zA-Z]+$/.test(this.state.fname)))
+      // {
+      //   Alert.alert('Firstname contain invalid letters');
+      // }
+      // else if(!(/^[a-zA-Z]+$/.test(this.state.lname)))
+      // {
+      //   Alert.alert('Lastname contain invalid letters');
+      // }
+      // else if(this.state.avatarSource==null){
+      //   Alert.alert('Please select image');
+      // }
+      else
+      {
+        //Wait for image upload Finish
+        var ImageName = randomString({length: 30});
+        var TempImageName = ImageName + this.state.username;
+        uploadImage(this.state.imagePath,TempImageName).
+        then(temp => {
+            this.state.imagePath = temp;
+                    //Send Info to Function
+        })
+        .catch(err => console.log("FAIL TEST"));
+        (async () => {
+            const rawResponse = await fetch('https://us-central1-tapptact-219009.cloudfunctions.net/addCard', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                cardFName: this.state.FName,
+                cardLName: this.state.LName,
+                cardEmail: [{
+                    email : this.state.Email,
+                    isEmailVerified : true,
+                    emailType : "General"
+                }],
+                cardImage:  this.state.imagePath,
+                cardUserPhone: [{
+                    phoneNum : this.state.Phone,
+                    isNumberVerified : true,
+                    phoneNumType : "General"
+                }],
+                cardSocialMedia: [{
+                    accountName : this.state.SocialMedia,
+                    URL : "",
+                    socialMediaType : ""
+                }],
+                cardCompany:[{
+                  companyName : this.state.Company,
+                  companyWebsite : "",
+                  companyEmail : "",
+                  companyPhoneNum : ""
+                }],
+                cardAddress:"",
+                cardExpand:[{
+                }],
+                cardPurpose : this.state.Purpose,
+                accountID:"5bc5804c74bc1700028f4ff4"
+              })
+            });
+            const content = await rawResponse.json();
+            if(content.hasOwnProperty('errorType'))
+            {
+              console.log(content.errorName);
+            }
+            else
+            {
+              console.log(content);
+              this.props.navigator.pop();
+            }
+          })();
+      }
+    }
 
     render() {
         return (
@@ -196,13 +208,14 @@ export default class addCardForm extends Component {
             }
             </View>
             </TouchableOpacity>
-            <TextInput style = {styles.UserNameForm} placeholder="Firstname" onChangeText={username => this.setState({username})} placeholderTextColor="#191970"/>
-            <TextInput style = {styles.PasswordForm} placeholder="Lastname" onChangeText={password => this.setState({password})} placeholderTextColor="#191970"/>
-            <TextInput style = {styles.EmailForm} placeholder="Email" onChangeText={email => this.setState({email})} placeholderTextColor="#191970"/>         
-            <TextInput style = {styles.PasswordForm} placeholder="Company" onChangeText={fname => this.setState({fname})} placeholderTextColor="#191970"/>
-            <TextInput style = {styles.UserNameForm} placeholder="Facebook" onChangeText={lname => this.setState({lname})} placeholderTextColor="#191970"/>
-            <TextInput style = {styles.PasswordForm} placeholder="Phone Number (Optional)" onChangeText={phone => this.setState({phone})} keyboardType = 'numeric' placeholderTextColor="#191970"/>
-            <TouchableOpacity style = {styles.button} onPress={this.testRegisterHandle}>
+            <TextInput style = {styles.StarterTextForm} placeholder="Firstname" onChangeText={FName => this.setState({FName})} placeholderTextColor="#191970"/>
+            <TextInput style = {styles.TextFieldForm} placeholder="Lastname" onChangeText={LName => this.setState({LName})} placeholderTextColor="#191970"/>
+            <TextInput style = {styles.EndForm} placeholder="Email" onChangeText={Email => this.setState({Email})} placeholderTextColor="#191970"/>         
+            <TextInput style = {styles.TextFieldForm} placeholder="Company" onChangeText={Company => this.setState({Company})} placeholderTextColor="#191970"/>
+            <TextInput style = {styles.EndForm} placeholder="Facebook" onChangeText={SocialMedia => this.setState({SocialMedia})} placeholderTextColor="#191970"/>
+            <TextInput style = {styles.TextFieldForm} placeholder="Phone Number" onChangeText={Phone => this.setState({Phone})} keyboardType = 'numeric' placeholderTextColor="#191970"/>
+            <TextInput style = {styles.EndForm} placeholder="Purpose" onChangeText={SocialMedia => this.setState({Purpose})} placeholderTextColor="#191970"/>
+            <TouchableOpacity style = {styles.button} onPress={this.addCardHandle}>
             <Text style = {styles.buttonText}> Create Card </Text>
           </TouchableOpacity>
           </View>
@@ -220,7 +233,7 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
         color:'#1a6aab'
     },
-    UserNameForm: {
+    StarterTextForm: {
         width:275,
         height:40,
         backgroundColor: '#BDDEEC',
@@ -228,7 +241,7 @@ const styles = StyleSheet.create({
         borderRadius:15,
         paddingHorizontal:8
       },
-      PasswordForm: {
+    TextFieldForm: {
         marginVertical:15,
         width:275,
         height:40,
@@ -237,7 +250,7 @@ const styles = StyleSheet.create({
         borderRadius:15,
         paddingHorizontal:8
       },
-      EmailForm: {
+      EndForm: {
         width:275,
         height:40,
         backgroundColor: '#BDDEEC',

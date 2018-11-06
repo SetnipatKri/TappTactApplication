@@ -12,6 +12,9 @@ export default class LoginForm extends Component {
     }
   }
 
+  testLoginHandle = () =>{
+    StartMainTab();
+  }
 
   loginHandle= () => {
     //Check Username
@@ -76,7 +79,7 @@ export default class LoginForm extends Component {
           <TextInput style = {styles.PasswordForm} secureTextEntry={true} placeholder="Password" 
           placeholderTextColor="#191970"
           onChangeText={password => this.setState({password})}/>
-          <TouchableOpacity style = {styles.button} onPress={this.loginHandle}>
+          <TouchableOpacity style = {styles.button} onPress={this.testLoginHandle}>
             <Text style = {styles.buttonText}> Login </Text>
           </TouchableOpacity>
       </View>
