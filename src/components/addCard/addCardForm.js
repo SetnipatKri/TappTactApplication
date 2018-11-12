@@ -5,7 +5,7 @@ import * as Validator from 'email-validator';
 import RNFetchBlob from 'rn-fetch-blob';
 import firebase from 'firebase'
 import randomString from 'random-string';
-
+import CacheStore from 'react-native-cache-store';
 
 
 const Blob = RNFetchBlob.polyfill.Blob
@@ -41,6 +41,7 @@ const uploadImage = (uri, imageName, mime = 'image/jpg') => {
 export default class addCardForm extends Component {
 
     state={
+      accountID: '',
       avatarSource: null,
       imagePath:'',
       imageHeight:400,
@@ -89,51 +90,36 @@ export default class addCardForm extends Component {
       });
     }
 
-    testRegisterHandle= () => {
-      this.props.navigator.pop();
+    testHandle= () => {
+      
     }   
 
     addCardHandle= () => {
       //Check Validate All Field
-      if(false)
+      if(!(/^[a-zA-Z]+$/.test(this.state.FName)))
       {
-        // Alert.alert('Username is too short');
+        Alert.alert('Firstname contain invalid letters');
       }
-      // else if((this.state.username.length>18))
-      // {
-      //   Alert.alert('Username is too long')
-      // }
-      // else if(!(/^[a-zA-Z0-9]+$/.test(this.state.username)))
-      // {
-      //   Alert.alert('Username contain invalid letters')
-      // }
-      // else if(this.state.password.length<6)
-      // {
-      //   Alert.alert('Password is too short');
-      // }
-      // else if((this.state.password.length>18))
-      // {
-      //   Alert.alert('Password is too long');
-      // }
-      // else if(!(/^[a-zA-Z0-9]+$/.test(this.state.password)))
-      // {
-      //   Alert.alert('Password contain invalid letters');
-      // }
-      // else if(!(Validator.validate(this.state.email)))
-      // {
-      //   Alert.alert('Invalid Email');
-      // }
-      // else if(!(/^[a-zA-Z]+$/.test(this.state.fname)))
-      // {
-      //   Alert.alert('Firstname contain invalid letters');
-      // }
-      // else if(!(/^[a-zA-Z]+$/.test(this.state.lname)))
-      // {
-      //   Alert.alert('Lastname contain invalid letters');
-      // }
-      // else if(this.state.avatarSource==null){
-      //   Alert.alert('Please select image');
-      // }
+      else if(!(/^[a-zA-Z]+$/.test(this.state.FName)))
+      {
+        Alert.alert('Lastname contain invalid letters');
+      }
+      else if(!(Validator.validate(this.state.Email))&&(this.state.Email!=""))
+      {
+        Alert.alert('Invalid Email');
+      }
+      else if(!(/^[a-zA-Z0-9]+$/.test(this.state.Company)))
+      {
+        Alert.alert('Username contain invalid letters')
+      }
+      else if(this.state.Purpose==="")
+      {
+        Alert.alert('Cannot leave purpose empty')
+      }
+      else if(!(/^[a-zA-Z]+$/.test(this.state.Purpose)))
+      {
+        Alert.alert('Purpose contain invalid letters')
+      }
       else
       {
         //Wait for image upload Finish
@@ -181,7 +167,7 @@ export default class addCardForm extends Component {
                 cardExpand:[{
                 }],
                 cardPurpose : this.state.Purpose,
-                accountID:"5bc5804c74bc1700028f4ff4"
+                accountID:this.state.accountID
               })
             });
             const content = await rawResponse.json();
@@ -199,6 +185,13 @@ export default class addCardForm extends Component {
     }
 
     render() {
+        CacheStore.get('AccountInfo').then((value) => {
+          const tempAccount = JSON.parse(value)
+          const tempID = tempAccount._id;
+          this.setState({
+            accountID: tempID
+          })
+        });
         return (
         <View style={styles.containerSignUpForm}>
             <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
@@ -214,7 +207,7 @@ export default class addCardForm extends Component {
             <TextInput style = {styles.TextFieldForm} placeholder="Company" onChangeText={Company => this.setState({Company})} placeholderTextColor="#191970"/>
             <TextInput style = {styles.EndForm} placeholder="Facebook" onChangeText={SocialMedia => this.setState({SocialMedia})} placeholderTextColor="#191970"/>
             <TextInput style = {styles.TextFieldForm} placeholder="Phone Number" onChangeText={Phone => this.setState({Phone})} keyboardType = 'numeric' placeholderTextColor="#191970"/>
-            <TextInput style = {styles.EndForm} placeholder="Purpose" onChangeText={SocialMedia => this.setState({Purpose})} placeholderTextColor="#191970"/>
+            <TextInput style = {styles.EndForm} placeholder="Purpose" onChangeText={Purpose => this.setState({Purpose})} placeholderTextColor="#191970"/>
             <TouchableOpacity style = {styles.button} onPress={this.addCardHandle}>
             <Text style = {styles.buttonText}> Create Card </Text>
           </TouchableOpacity>
@@ -270,6 +263,7 @@ const styles = StyleSheet.create({
 
       },
       button: {
+        marginVertical:15,
         paddingVertical:10,
         backgroundColor: '#124874',
         width:275,

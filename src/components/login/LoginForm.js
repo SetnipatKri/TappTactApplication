@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View , TextInput , TouchableOpacity,Alert} from 'react-native';
 import StartMainTab from '../../screens/MainScreen/StartMainTab';
 import * as Validator from 'email-validator';
+import CacheStore from 'react-native-cache-store';
 export default class LoginForm extends Component {
 
   constructor(){
@@ -64,6 +65,8 @@ export default class LoginForm extends Component {
       }
       else
       {
+        const myObjStr = JSON.stringify(content);
+        CacheStore.set('AccountInfo', myObjStr);
         StartMainTab();
       }
     })();
@@ -79,7 +82,7 @@ export default class LoginForm extends Component {
           <TextInput style = {styles.PasswordForm} secureTextEntry={true} placeholder="Password" 
           placeholderTextColor="#191970"
           onChangeText={password => this.setState({password})}/>
-          <TouchableOpacity style = {styles.button} onPress={this.testLoginHandle}>
+          <TouchableOpacity style = {styles.button} onPress={this.loginHandle}>
             <Text style = {styles.buttonText}> Login </Text>
           </TouchableOpacity>
       </View>
