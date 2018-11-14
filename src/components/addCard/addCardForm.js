@@ -7,12 +7,15 @@ import firebase from 'firebase'
 import randomString from 'random-string';
 import CacheStore from 'react-native-cache-store';
 
+_isMounted = false;
 
 const Blob = RNFetchBlob.polyfill.Blob
 const fs = RNFetchBlob.fs
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
 window.Blob = Blob
 const uploadImage = (uri, imageName, mime = 'image/jpg') => {
+  this._isMounted = true;
+  if(this._isMounted){
   return new Promise((resolve,reject) => {
     const uploadUri = Platform.OS === 'ios' ? uri.uri.replace('file://', '') : uri
       let uploadBlob = null
@@ -37,6 +40,7 @@ const uploadImage = (uri, imageName, mime = 'image/jpg') => {
       })
   })
 }
+}
 
 export default class addCardForm extends Component {
 
@@ -58,6 +62,11 @@ export default class addCardForm extends Component {
       Purpose:''
     }
     
+    componentWillUnmount() {
+      console.log ("UNMOUNTED");
+      this._isMounted = false;
+    }
+
     //Select Photo
     selectPhotoTapped() {
       const options = {
@@ -68,6 +77,7 @@ export default class addCardForm extends Component {
           skipBackup: true
         }
       };
+
       ImagePicker.showImagePicker(options,(response)=>{
         console.log('Response = ', response);
 
@@ -89,10 +99,6 @@ export default class addCardForm extends Component {
         }
       });
     }
-
-    testHandle= () => {
-      
-    }   
 
     addCardHandle= () => {
       //Check Validate All Field
@@ -184,14 +190,20 @@ export default class addCardForm extends Component {
       }
     }
 
+    componentWillMount() {
+      this._isMounted=true;
+      CacheStore.get('AccountInfo').then((value) => {
+        const tempAccount = JSON.parse(value)
+        const tempID = tempAccount._id;
+        if(this._isMounted){
+        this.setState({
+          accountID: tempID
+        })}
+      });
+    }
+
     render() {
-        CacheStore.get('AccountInfo').then((value) => {
-          const tempAccount = JSON.parse(value)
-          const tempID = tempAccount._id;
-          this.setState({
-            accountID: tempID
-          })
-        });
+
         return (
         <View style={styles.containerSignUpForm}>
             <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>

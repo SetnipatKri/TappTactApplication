@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {StyleSheet, Text, View , Image , TouchableOpacity} from 'react-native';
 
-async function getCardList(){
+async function getCardList(tempID){
     try{
         let rawResponse = await fetch('https://us-central1-tapptact-219009.cloudfunctions.net/getCardList', {
                  method: 'POST',
@@ -10,7 +10,7 @@ async function getCardList(){
                      'Content-Type': 'application/json'
                  },
                  body: JSON.stringify({
-                     accountID: "5bc5804c74bc1700028f4ff4"
+                     accountID: tempID
                  })
              });
         let response = await rawResponse.json();

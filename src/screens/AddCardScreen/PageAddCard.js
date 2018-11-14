@@ -5,6 +5,7 @@ import AddCardForm from '../../components/addCard/addCardForm'
 // import RegisterForm from '../../components/register/RegisterForm'
 
 class PageAddCard extends Component {
+
     render(){
         return(
             <ScrollView>

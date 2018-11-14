@@ -6,7 +6,7 @@ export default class addCardList extends Component {
     addCardHandler = () => {  
         this.props.navigator.push({
           screen: "TappTact-PageAddCard",
-          title: "Add Card"
+          title: "Add Card",
       });
      }
 

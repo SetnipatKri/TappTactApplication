@@ -8,8 +8,8 @@ export default class LoginForm extends Component {
   constructor(){
     super();
     this.state = {
-        username:'',
-        password:''
+        username:'setnipat',
+        password:'jayjay38'
     }
   }
 

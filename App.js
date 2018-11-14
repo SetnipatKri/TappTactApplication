@@ -6,6 +6,7 @@ import PageContactList from './src/screens/ContactListScreen/PageContactList';
 import PageCardList from './src/screens/CardListScreen/PageCardList';
 import PageAddCard from './src/screens/AddCardScreen/PageAddCard';
 import PageExchangeCard from './src/screens/ExchangeCardScreen/PageExchangeCard';
+import PageQR from './src/screens/QRScreen/PageQR';
 //Login Screen
 Navigation.registerComponent("TappTact-PageLogin" , () => PageLogin);
 //Register Screen
@@ -16,6 +17,9 @@ Navigation.registerComponent("TappTact-PageCardList" , () => PageCardList);
 Navigation.registerComponent("TappTact-PageExchangeCard" , () => PageExchangeCard);
 //Add Card Screen
 Navigation.registerComponent("TappTact-PageAddCard" , () => PageAddCard);
+//QRCode
+Navigation.registerComponent("TappTact-PageQR" , () => PageQR);
+
 Navigation.startSingleScreenApp({
   screen: {
     screen: "TappTact-PageLogin",
