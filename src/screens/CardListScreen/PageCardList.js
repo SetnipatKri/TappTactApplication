@@ -24,7 +24,14 @@ class PageCardList extends Component {
     }
 
     selectCard(item) {
-        Alert.alert(item.cardPurpose);
+        console.log(item._id)
+        this.props.navigator.push({
+          screen: "TappTact-PageCardDetail",
+          title: item.cardPurpose,
+          passProps: {
+            CardDetail: item
+          }
+        });
     }
 
     fetchData = (accountID) => {

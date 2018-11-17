@@ -18,6 +18,7 @@ class PageExchangeCard extends Component {
   }
 
   selectCard(item) {
+    console.log(item._id)
     this.props.navigator.push({
       screen: "TappTact-PageQR",
       title: "QR Code",
@@ -93,6 +94,7 @@ class PageExchangeCard extends Component {
 
 const styles = StyleSheet.create({
   containerCamera:{
+    marginTop:10,
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -106,13 +108,12 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: 10,
     backgroundColor: '#124874',
-    width: 275,
+    width: '90%',
     borderRadius: 15
   },
   buttonText: {
     fontSize: 18,
     textAlign: 'center',
-    fontWeight: '500',
     color: '#ffffff'
   },
   textCard: {

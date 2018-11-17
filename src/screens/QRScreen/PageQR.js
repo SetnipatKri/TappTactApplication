@@ -7,14 +7,14 @@ class PageQR extends Component {
 
     constructor(props){
         super(props)
-        
+        console.log("PROPS"+props.cardID);
     }
 
     render() {
         return (
             <View style = {styles.containerQR}>
             <QRCode
-                value={this.props.accountID}
+                value={""+this.props.cardID}
                 size={200}
                 bgColor='black'
                 fgColor='white' />

@@ -122,7 +122,7 @@ export default class addCardForm extends Component {
       {
         Alert.alert('Cannot leave purpose empty')
       }
-      else if(!(/^[a-zA-Z]+$/.test(this.state.Purpose)))
+      else if(!(/^[a-zA-Z ]+$/.test(this.state.Purpose)))
       {
         Alert.alert('Purpose contain invalid letters')
       }
@@ -179,7 +179,7 @@ export default class addCardForm extends Component {
             const content = await rawResponse.json();
             if(content.hasOwnProperty('errorType'))
             {
-              console.log(content.errorName);
+              Alert.alert("Please Try Again")
             }
             else
             {
@@ -270,8 +270,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
       },
       avatar: {
-        width: 400,
-        height: 170,
+        width: 350,
+        height: 200,
 
       },
       button: {
