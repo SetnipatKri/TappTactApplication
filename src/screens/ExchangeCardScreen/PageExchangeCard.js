@@ -2,6 +2,7 @@ import QRCode from 'react-native-qrcode';
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, FlatList, ActivityIndicator, Alert } from 'react-native';
 import { getCardList } from '../../components/cardList/getCardList'
+import CamButton from '../../components/exchangeCardList/cameraButton'
 import CacheStore from 'react-native-cache-store';
 class PageExchangeCard extends Component {
   _isMounted = false;
@@ -56,6 +57,10 @@ class PageExchangeCard extends Component {
   }
 
   pageExchangeHandle() {
+    this.props.navigator.push({
+      screen: "TappTact-PageCamera",
+      title: "Scanner",
+    });
   }
 
   render() {
@@ -67,11 +72,7 @@ class PageExchangeCard extends Component {
         </View>
         :
         <View>
-          <View style={styles.containerCamera}>
-            <TouchableOpacity style={styles.button} onPress={this.pageExchangeHandle}>
-              <Text style={styles.buttonText}> Camera </Text>
-            </TouchableOpacity>
-          </View>
+          <CamButton navigator={this.props.navigator}/>
           <FlatList
             data={this.state.cardList}
             renderItem={({ item }) =>
