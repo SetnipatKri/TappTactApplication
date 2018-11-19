@@ -24,8 +24,8 @@ class PageCamera extends Component {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        exchangeSenderID: this.state.accountID,
-                        exchangeReceiverID: "",
+                        exchangeSenderID: "",
+                        exchangeReceiverID: this.state.accountID,
                         exchangeCardID: e.data
                     })
                 });
