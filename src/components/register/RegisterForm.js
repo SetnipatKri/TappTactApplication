@@ -145,10 +145,8 @@ export default class signUpText extends Component {
         uploadImage(this.state.imagePath,TempImageName).
         then(temp => {
             this.state.imagePath = temp;
-                    //Send Info to Function
-        })
-        .catch(err => console.log("FAIL TEST"));
-        (async () => {
+        }).then(
+          (async () => {
             const rawResponse = await fetch('https://us-central1-tapptact-219009.cloudfunctions.net/Register', {
               method: 'POST',
               headers: {
@@ -180,16 +178,19 @@ export default class signUpText extends Component {
               })
             });
             const content = await rawResponse.json();
-            if(content.hasOwnProperty('errorType'))
-            {
-              console.log(content.errorName);
-            }
-            else
+            if(content.hasOwnProperty('_id'))
             {
               console.log(content);
               this.props.navigator.pop();
             }
-          })();
+            else
+            {
+              Alert.alert("Please Try Again");
+            }
+          })
+        )
+        .catch(err => console.log("FAIL"+err));
+        
       }
     }
 

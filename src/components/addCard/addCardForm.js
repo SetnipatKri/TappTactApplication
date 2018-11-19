@@ -57,6 +57,7 @@ export default class addCardForm extends Component {
       SocialMedia:'',
       Company:'',
       Address:'',
+      accountImage:'',
       AccountID:'',
       Expand:'',
       Purpose:''
@@ -135,9 +136,8 @@ export default class addCardForm extends Component {
         then(temp => {
             this.state.imagePath = temp;
                     //Send Info to Function
-        })
-        .catch(err => console.log("FAIL TEST"));
-        (async () => {
+        }).then(
+          (async () => {
             const rawResponse = await fetch('https://us-central1-tapptact-219009.cloudfunctions.net/addCard', {
               method: 'POST',
               headers: {
@@ -173,20 +173,23 @@ export default class addCardForm extends Component {
                 cardExpand:[{
                 }],
                 cardPurpose : this.state.Purpose,
-                accountID:this.state.accountID
+                accountID:this.state.accountID,
+                accountPic:this.state.accountImage
               })
             });
             const content = await rawResponse.json();
             if(content.hasOwnProperty('errorType'))
             {
-              Alert.alert("Please Try Again")
+              Alert.alert("Please Try Again");
             }
             else
             {
               console.log(content);
               this.props.navigator.pop();
             }
-          })();
+          })
+        )
+        .catch(err => console.log("FAIL"+err));
       }
     }
 
@@ -195,8 +198,10 @@ export default class addCardForm extends Component {
       CacheStore.get('AccountInfo').then((value) => {
         const tempAccount = JSON.parse(value)
         const tempID = tempAccount._id;
+        const tempImage = tempAccount.accountImage
         if(this._isMounted){
         this.setState({
+          accountImage: tempImage,
           accountID: tempID
         })}
       });

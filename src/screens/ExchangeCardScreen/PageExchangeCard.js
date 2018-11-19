@@ -18,6 +18,17 @@ class PageExchangeCard extends Component {
     />
   }
 
+  refreshHandler = () => {
+    this._isMounted = true;
+    if (this._isMounted) {
+        CacheStore.get('AccountInfo').then((value) => {
+            const tempAccount = JSON.parse(value)
+            const tempID = tempAccount._id;
+            const temp = this.fetchData(tempID);
+        });
+    }
+}
+
   selectCard(item) {
     console.log(item._id)
     this.props.navigator.push({
@@ -72,7 +83,12 @@ class PageExchangeCard extends Component {
         </View>
         :
         <View>
-          <CamButton navigator={this.props.navigator}/>
+          <CamButton navigator={this.props.navigator} />
+          <View style={styles.containerRefresh}>
+            <TouchableOpacity style={styles.button} onPress={this.refreshHandler}>
+              <Text style={styles.RefreshText}>Refresh</Text>
+            </TouchableOpacity>
+          </View>
           <FlatList
             data={this.state.cardList}
             renderItem={({ item }) =>
@@ -94,8 +110,8 @@ class PageExchangeCard extends Component {
 }
 
 const styles = StyleSheet.create({
-  containerCamera:{
-    marginTop:10,
+  containerCamera: {
+    marginTop: 10,
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
@@ -105,7 +121,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 10,
     alignItems: 'center',
-},
+  },
   button: {
     paddingVertical: 10,
     backgroundColor: '#124874',
@@ -130,7 +146,24 @@ const styles = StyleSheet.create({
     height: 1,
     paddingHorizontal: 10,
     backgroundColor: '#8E8E8E',
-  }
+  },
+  containerRefresh: {
+    marginTop: 10,
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  RefreshText: {
+    fontSize: 18,
+    textAlign: 'center',
+    color: '#ffffff'
+  },
+  button: {
+    paddingVertical: 10,
+    backgroundColor: '#124874',
+    width: '90%',
+    borderRadius: 15
+  },
 });
 
 
