@@ -19,6 +19,7 @@ class PageExchangeCard extends Component {
   }
 
   refreshHandler = () => {
+    this.setState ({isLoading: true})
     this._isMounted = true;
     if (this._isMounted) {
         CacheStore.get('AccountInfo').then((value) => {

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Image ,Text, TextInput, View, TouchableOpacity,PixelRatio,Alert,Platform} from 'react-native';
+import {StyleSheet, Image ,Text, TextInput, View, TouchableOpacity,PixelRatio,Alert,Platform,ActivityIndicator} from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import * as Validator from 'email-validator';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -47,6 +47,7 @@ const uploadImage = (uri, imageName, mime = 'image/jpg') => {
 export default class signUpText extends Component {
 
     state={
+      isLoading: false,
       avatarSource: null,
       imagePath:'',
       imageHeight:150,
@@ -139,6 +140,7 @@ export default class signUpText extends Component {
       }
       else
       {
+        this.setState ({isLoading: true})
         //Wait for image upload Finish
         var ImageName = randomString({length: 30});
         var TempImageName = ImageName + this.state.username;
@@ -185,6 +187,7 @@ export default class signUpText extends Component {
             }
             else
             {
+              this.setState ({isLoading: false})
               Alert.alert("Please Try Again");
             }
           })
@@ -196,6 +199,12 @@ export default class signUpText extends Component {
 
     render() {
         return (
+          this.state.isLoading
+          ?
+          <View>
+              <ActivityIndicator size="large" color="#330066" animating />
+          </View>
+          :
         <View style={styles.containerSignUpForm}>
             <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
             <View style={[styles.avatar, styles.avatarContainer, {marginBottom: 20}]}>
