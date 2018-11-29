@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {StyleSheet, Text, View , ScrollView} from 'react-native';
+import {StyleSheet, Text, View , ScrollView,} from 'react-native';
 import AddCardForm from '../../components/addCard/addCardForm'
 // import RegisterForm from '../../components/register/RegisterForm'
 

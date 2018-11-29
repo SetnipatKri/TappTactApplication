@@ -14,6 +14,7 @@ class PageCamera extends Component {
     onSuccess(e) {
         if (!(/^[a-zA-Z0-9]+$/.test(e.data))) {
             Alert.alert('This QR Code is not Valid');
+            this.scanner.reactivate();
         }
         else {
             (async () => {
@@ -31,7 +32,8 @@ class PageCamera extends Component {
                 });
                 const content = await rawResponse.json();
                 if (content.hasOwnProperty('errorType')) {
-                    Alert.alert('not Found');
+                    Alert.alert('This QR Code is invalid');
+                    this.scanner.reactivate();
                 }
                 else {
                     console.log(content);
@@ -64,6 +66,7 @@ class PageCamera extends Component {
         return (
             <QRCodeScanner
                 onRead={this.onSuccess.bind(this)}
+                ref={(node) => { this.scanner = node }}
             />
 
         );

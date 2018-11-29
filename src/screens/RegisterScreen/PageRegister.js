@@ -8,12 +8,11 @@ import RegisterForm from '../../components/register/RegisterForm'
 class PageRegister extends Component {
     render(){
         return(
-        <View style={styles.containerRegisterPage}>
-            <ScrollView>
-              <RegisterText/>
+         <ScrollView>
+            <View styles={styles.containerRegisterPage}>
               <RegisterForm navigator={this.props.navigator}/>     
-            </ScrollView>
-        </View>
+            </View>
+          </ScrollView>
         );
     }
 }

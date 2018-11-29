@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {StyleSheet, Image ,Text, TextInput, View, TouchableOpacity,PixelRatio,Alert,Platform} from 'react-native';
+import {StyleSheet, Image ,Text, TextInput, View, TouchableOpacity,PixelRatio,Alert,Platform,ActivityIndicator} from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import * as Validator from 'email-validator';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -45,6 +45,7 @@ const uploadImage = (uri, imageName, mime = 'image/jpg') => {
 export default class addCardForm extends Component {
 
     state={
+      isLoading: false,
       accountID: '',
       avatarSource: null,
       imagePath:'',
@@ -107,28 +108,49 @@ export default class addCardForm extends Component {
       {
         Alert.alert('Firstname contain invalid letters');
       }
+      else if(this.state.FName==="")
+      {
+        Alert.alert('Firstname is required')
+      }
       else if(!(/^[a-zA-Z]+$/.test(this.state.FName)))
       {
         Alert.alert('Lastname contain invalid letters');
+      }
+      else if(this.state.LName==="")
+      {
+        Alert.alert('Lastname is required')
       }
       else if(!(Validator.validate(this.state.Email))&&(this.state.Email!=""))
       {
         Alert.alert('Invalid Email');
       }
+      else if(this.state.Email==="")
+      {
+        Alert.alert('Email is required')
+      }
       else if(!(/^[a-zA-Z0-9]+$/.test(this.state.Company)))
       {
-        Alert.alert('Username contain invalid letters')
+        Alert.alert('Company contain invalid letters')
+      }
+      else if(this.state.Company==="")
+      {
+        Alert.alert('Company is required')
       }
       else if(this.state.Purpose==="")
       {
         Alert.alert('Cannot leave purpose empty')
       }
-      else if(!(/^[a-zA-Z ]+$/.test(this.state.Purpose)))
+      else if(this.state.Phone==="")
+      {
+        Alert.alert('Cannot leave phone number empty')
+      }
+      else if(!(/^[a-zA-Z0-9 ]+$/.test(this.state.Purpose)))
       {
         Alert.alert('Purpose contain invalid letters')
       }
       else
       {
+        this.setState ({isLoading: true})
         //Wait for image upload Finish
         var ImageName = randomString({length: 30});
         var TempImageName = ImageName + this.state.username;
@@ -180,6 +202,7 @@ export default class addCardForm extends Component {
             const content = await rawResponse.json();
             if(content.hasOwnProperty('errorType'))
             {
+              this.setState ({isLoading: false})
               Alert.alert("Please Try Again");
             }
             else
@@ -210,6 +233,12 @@ export default class addCardForm extends Component {
     render() {
 
         return (
+          this.state.isLoading
+          ?
+          <View>
+              <ActivityIndicator size="large" color="#330066" animating />
+          </View>
+          :
         <View style={styles.containerSignUpForm}>
             <TouchableOpacity onPress={this.selectPhotoTapped.bind(this)}>
             <View style={[styles.avatar, styles.avatarContainer, {marginBottom: 20}]}>
