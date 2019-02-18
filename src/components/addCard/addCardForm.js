@@ -112,7 +112,7 @@ export default class addCardForm extends Component {
       {
         Alert.alert('Firstname is required')
       }
-      else if(!(/^[a-zA-Z]+$/.test(this.state.FName)))
+      else if(!(/^[a-zA-Z]+$/.test(this.state.LName)))
       {
         Alert.alert('Lastname contain invalid letters');
       }

@@ -1,7 +1,7 @@
 
 import React, {Component} from 'react';
 import {StyleSheet, Text, View , ScrollView} from 'react-native';
-import RegisterText from '../../components/register/RegisterText'
+//import RegisterText from '../../components/register/RegisterText'
 import RegisterForm from '../../components/register/RegisterForm'
 
   /*<Icon size={30} name = "ios-trash"/>*/
