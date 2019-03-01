@@ -17,7 +17,7 @@ async function getContactList(tempID){
         return response;
     }
     catch{
-        console.error("Error in getCardList")
+        return null
     }
 }
 export {getContactList};

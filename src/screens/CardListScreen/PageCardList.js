@@ -9,7 +9,9 @@ class PageCardList extends Component {
 
     state = {
         cardList: [],
-        isLoading: true
+        isLoading: true,
+        refreshing: false,
+        noCard: false
     }
 
     constructor(props) {
@@ -17,7 +19,7 @@ class PageCardList extends Component {
     }
 
     refreshHandler = () => {
-        this.setState ({isLoading: true})
+        this.setState({ isLoading: true, refreshing: true })
         this._isMounted = true;
         if (this._isMounted) {
             CacheStore.get('AccountInfo').then((value) => {
@@ -48,15 +50,12 @@ class PageCardList extends Component {
     fetchData = (accountID) => {
         getCardList(accountID).then((items) => {
             if (this._isMounted) {
-                console.log("SET STATE");
-                this.setState({ isLoading: false, cardList: items })
+                this.setState({ isLoading: false, refreshing: false, cardList: items, noCard: false })
             }
-            console.log(this.state.cardList);
         }).catch((error) => {
             if (this._isMounted) {
-                this.setState({ cardList: [] })
+                this.setState({ isLoading: false, cardList: [], refreshing: false, noCard: true })
             }
-            Alert.alert("LoadFails");
         })
     }
 
@@ -67,10 +66,17 @@ class PageCardList extends Component {
                 const tempAccount = JSON.parse(value)
                 const tempID = tempAccount._id;
                 const temp = this.fetchData(tempID);
-                console.log(temp)
             });
         }
     }
+
+    ListEmptyView = () => {
+        return
+        <View>
+            <Text>No Contact</Text>
+        </View>
+    }
+
 
     render() {
         return (
@@ -80,27 +86,39 @@ class PageCardList extends Component {
                     <ActivityIndicator size="large" color="#330066" animating />
                 </View>
                 :
-                <View>
-                    <AddCardButton navigator={this.props.navigator} />
-                    <View style={styles.containerRefresh}>
-                        <TouchableOpacity style={styles.button} onPress={this.refreshHandler}>
-                            <Text style={styles.RefreshText}>Refresh</Text>
+                this.state.noCard
+                    ?
+                    <View>
+                        <AddCardButton navigator={this.props.navigator} />
+                        <TouchableOpacity onPress={this.refreshHandler}>
+                            <Text>No Card Press to Refresh</Text>
                         </TouchableOpacity>
                     </View>
-                    <FlatList
-                        data={this.state.cardList}
-                        renderItem={({ item }) =>
-                            <TouchableOpacity onPress={() => this.selectCard(item)}>
-                                <View style={styles.containerCardListPage}>
-                                    <Image style={styles.cardIcon} source={{ uri: item.cardImage }} />
-                                    <Text style={styles.textCard}>{item.cardPurpose}</Text>
-                                </View>
+                    :
+                    <View>
+                        <AddCardButton navigator={this.props.navigator} />
+                        <FlatList
+                            data={this.state.cardList}
+                            renderItem={({ item }) =>
+                                <TouchableOpacity onPress={() => this.selectCard(item)}>
+                                    <View style={styles.containerCardListPage}>
+                                        <Image style={styles.cardIcon} source={{ uri: item.cardImage }} />
+                                        <Text style={styles.textCard}>{item.cardPurpose}</Text>
+                                    </View>
+                                </TouchableOpacity>
+                            }
+                            refreshing={this.state.refreshing}
+                            onRefresh={this.refreshHandler}
+                            keyExtractor={item => item._id}
+                            //ListEmptyComponent={this.ListEmptyView}
+                            ItemSeparatorComponent={this.renderSeperator}
+                        />
+                        <View style={styles.containerRefresh}>
+                            <TouchableOpacity onPress={this.refreshHandler}>
+                                <Text style={styles.RefreshText}>Press here to Refresh</Text>
                             </TouchableOpacity>
-                        }
-                        keyExtractor={item => item._id}
-                        ItemSeparatorComponent={this.renderSeperator}
-                    />
-                </View>
+                        </View>
+                    </View>
         )
     }
 
@@ -130,7 +148,7 @@ const styles = StyleSheet.create({
         height: 1,
         paddingHorizontal: 10,
         backgroundColor: '#8E8E8E',
-    }, 
+    },
     containerRefresh: {
         marginTop: 10,
         flexGrow: 1,
@@ -140,7 +158,7 @@ const styles = StyleSheet.create({
     RefreshText: {
         fontSize: 18,
         textAlign: 'center',
-        color: '#ffffff'
+        color: '#A9A9A9'
     },
     button: {
         paddingVertical: 10,

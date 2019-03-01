@@ -177,7 +177,8 @@ export default class signUpText extends Component {
                     URL : "",
                     socialMediaType : ""
                 }],
-                companyID: ""
+                companyID: "",
+                companyDepartment: ""
               })
             });
             const content = await rawResponse.json();

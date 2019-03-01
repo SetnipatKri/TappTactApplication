@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, FlatList, ActivityIndicator, Alert } from 'react-native';
 import { getContactList } from '../../components/contactList/getContactList'
 //import { contains } from '../../components/contactList/search'
-import {SearchBar} from 'react-native-elements';
+import { SearchBar } from 'react-native-elements';
 import _ from 'lodash';
 import CacheStore from 'react-native-cache-store';
 class PageContactList extends Component {
@@ -11,7 +11,7 @@ class PageContactList extends Component {
     state = {
         contactList: [],
         isLoading: true,
-        contactFullList:[],
+        contactFullList: [],
         refreshing: false
     };
 
@@ -22,7 +22,7 @@ class PageContactList extends Component {
     }
 
     refreshHandler = () => {
-        this.setState ({isLoading: true ,refreshing:true})
+        this.setState({ isLoading: true, refreshing: true })
         this._isMounted = true;
         if (this._isMounted) {
             CacheStore.get('AccountInfo').then((value) => {
@@ -48,15 +48,14 @@ class PageContactList extends Component {
         getContactList(accountID).then((items) => {
             if (this._isMounted) {
                 console.log("SET STATE");
-                this.setState({ isLoading: false, contactList: items,refreshing: false ,contactFullList: items})
+                this.setState({ isLoading: false, contactList: items, refreshing: false, contactFullList: items })
                 this.arrayholder = items;
             }
             console.log(this.state.cardList);
         }).catch((error) => {
             if (this._isMounted) {
-                this.setState({isLoading:false, contactList: [], refreshing:false, contactFullList: []})
+                this.setState({ isLoading: false, contactList: [], refreshing: false, contactFullList: [] })
             }
-            Alert.alert("LoadFails");
         })
     }
 
@@ -67,19 +66,26 @@ class PageContactList extends Component {
                 const tempAccount = JSON.parse(value)
                 const tempID = tempAccount._id;
                 const temp = this.fetchData(tempID);
-                console.log(temp)
+
             });
         }
     }
 
-    searchFilther = (text) =>{
+    searchFilther = (text) => {
         const query = text.toLowerCase();
         var temp = this.state.contactFullList
-        const newData = _.filter(temp,function(o){
-            return ((o.cardFName+" "+o.cardLName).toLowerCase().indexOf(query))>-1
+        const newData = _.filter(temp, function (o) {
+            return ((o.cardFName + " " + o.cardLName).toLowerCase().indexOf(query)) > -1
         })
-        this.setState({contactList: newData})
+        this.setState({ contactList: newData })
     };
+
+    ListEmptyView = () => {
+        return
+        <View>
+            <Text>No Contact</Text>
+        </View>
+    }
 
     renderSeperator = () => {
         return <View
@@ -96,13 +102,13 @@ class PageContactList extends Component {
                 </View>
                 :
                 <View>
-                <SearchBar
-                placeholder="Search ..."
-                lightTheme
-                round
-                onChangeText={this.searchFilther}
-                autoCorrect={false}
-                />
+                    <SearchBar
+                        placeholder="Search ..."
+                        lightTheme
+                        round
+                        onChangeText={this.searchFilther}
+                        autoCorrect={false}
+                    />
                     <FlatList
                         data={this.state.contactList}
                         renderItem={({ item }) =>
@@ -113,11 +119,16 @@ class PageContactList extends Component {
                                 </View>
                             </TouchableOpacity>
                         }
-                        refreshing = {this.state.refreshing}
-                        onRefresh = {this.refreshHandler} 
+                        refreshing={this.state.refreshing}
+                        onRefresh={this.refreshHandler}
                         keyExtractor={item => item._id}
                         ItemSeparatorComponent={this.renderSeperator}
                     />
+                    <View style={styles.containerRefresh}>
+                        <TouchableOpacity onPress={this.refreshHandler}>
+                            <Text style={styles.RefreshText}>Press here to Refresh</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
         )
     }
@@ -155,7 +166,7 @@ const styles = StyleSheet.create({
     RefreshText: {
         fontSize: 18,
         textAlign: 'center',
-        color: '#ffffff'
+        color: '#A9A9A9'
     },
     button: {
         paddingVertical: 10,

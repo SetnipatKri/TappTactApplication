@@ -19,16 +19,16 @@ class PageExchangeCard extends Component {
   }
 
   refreshHandler = () => {
-    this.setState ({isLoading: true})
+    this.setState({ isLoading: true })
     this._isMounted = true;
     if (this._isMounted) {
-        CacheStore.get('AccountInfo').then((value) => {
-            const tempAccount = JSON.parse(value)
-            const tempID = tempAccount._id;
-            const temp = this.fetchData(tempID);
-        });
+      CacheStore.get('AccountInfo').then((value) => {
+        const tempAccount = JSON.parse(value)
+        const tempID = tempAccount._id;
+        const temp = this.fetchData(tempID);
+      });
     }
-}
+  }
 
   selectCard(item) {
     console.log(item._id)
@@ -85,11 +85,6 @@ class PageExchangeCard extends Component {
         :
         <View>
           <CamButton navigator={this.props.navigator} />
-          <View style={styles.containerRefresh}>
-            <TouchableOpacity style={styles.button} onPress={this.refreshHandler}>
-              <Text style={styles.RefreshText}>Refresh</Text>
-            </TouchableOpacity>
-          </View>
           <FlatList
             data={this.state.cardList}
             renderItem={({ item }) =>
@@ -103,6 +98,11 @@ class PageExchangeCard extends Component {
             keyExtractor={item => item._id}
             ItemSeparatorComponent={this.renderSeperator}
           />
+          <View style={styles.containerRefresh}>
+            <TouchableOpacity onPress={this.refreshHandler}>
+              <Text style={styles.RefreshText}>Press here to Refresh</Text>
+            </TouchableOpacity>
+          </View>
 
         </View>
 
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   RefreshText: {
     fontSize: 18,
     textAlign: 'center',
-    color: '#ffffff'
+    color: '#A9A9A9'
   },
   button: {
     paddingVertical: 10,
